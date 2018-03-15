@@ -10,6 +10,7 @@
 ;; (require 'prelude-key-chord) ;; Binds useful features to key combinations
 ;; (require 'prelude-mediawiki)
 ;; (require 'prelude-evil)
+(require 'prelude-xterm)
 
 ;;; Programming languages support
 (require 'prelude-c)
