@@ -83,6 +83,15 @@
 (global-set-key (kbd "C-c M-\\") 'youdao-dictionary-search-at-point+)
 
 
+(prelude-require-package 'ox-gfm)
+(eval-after-load "org"
+  '(require 'ox-gfm nil t))
+
+;; markdown review
+(prelude-require-package 'gh-md)
+;; gh-md-render-region and gh-md-render-buffer to generate a preview of the markdown content of a buffer.
+
+
 (provide 'prelude-misc)
 
 ;;; prelude-misc.el ends here
