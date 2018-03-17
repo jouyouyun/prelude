@@ -111,6 +111,29 @@
 (global-set-key (kbd "s-.") 'avy-goto-word-or-subword-1)
 (global-set-key (kbd "s-w") 'ace-window)
 
+;; easy-kill
+(global-set-key (kbd "M-m") 'easy-kill)
+;; default keybinding
+;;  M-w w: save word at point
+;;  M-w s: save sexp at point
+;;  M-w l: save list at point (enclosing sexp)
+;;  M-w d: save defun at point
+;;  M-w D: save current defun name
+;;  M-w f: save file at point
+;;  M-w b: save buffer-file-name or default-directory.
+;;         - changes the kill to the directory name,
+;;         + to full name and 0 to basename.
+;; The following keys modify the selection:
+;;  @: append selection to previous kill and exit.
+;;     For example, M-w d @ will append current function to last kill.
+;;  C-w: kill selection and exit
+;;  +, - and 1..9: expand/shrink selection
+;;  0: shrink the selection to the intitial size i.e. before any expansion
+;;  C-SPC: turn selection into an active region
+;;  C-g: abort
+;;  ?: help
+;;
+
 (provide 'prelude-global-keybindings)
 
 ;;; prelude-global-keybindings.el ends here
