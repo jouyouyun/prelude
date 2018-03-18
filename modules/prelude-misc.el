@@ -92,6 +92,9 @@
 ;; gh-md-render-region and gh-md-render-buffer to generate a preview of the markdown content of a buffer.
 
 
+;; custom
+(setq prelude-auto-save nil)
+
 (provide 'prelude-misc)
 
 ;;; prelude-misc.el ends here
