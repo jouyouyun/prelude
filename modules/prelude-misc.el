@@ -44,6 +44,19 @@
     (when (and (<= frame-alpha-lower-limit newalpha) (>= 100 newalpha))
       (modify-frame-parameters frame (list (cons 'alpha newalpha))))))
 
+;; search selected text
+(defadvice isearch-mode (around isearch-mode-default-string (forward &optional regexp op-fun recursive-edit word-p) activate)
+  (if (and transient-mark-mode mark-active (not (eq (mark) (point))))
+      (progn
+        (isearch-update-ring (buffer-substring-no-properties (mark) (point)))
+        (deactivate-mark)
+        ad-do-it
+        (if (not forward)
+            (isearch-repeat-backward)
+          (goto-char (mark))
+          (isearch-repeat-forward)))
+    ad-do-it))
+
 ;; multiple-cursors
 (prelude-require-package 'multiple-cursors)
 (global-set-key (kbd "C-S-c C-S-c") 'mc/edit-lines)
@@ -88,12 +101,21 @@
   '(require 'ox-gfm nil t))
 
 ;; markdown review
-(prelude-require-package 'gh-md)
-;; gh-md-render-region and gh-md-render-buffer to generate a preview of the markdown content of a buffer.
+;; flymd
+;; see: http://devlz.com/2016/08/07/emacs-Markdown%E5%AE%9E%E6%97%B6%E9%A2%84%E8%A7%88/
+(prelude-require-package 'flymd)
+(defun my-flymd-browser-function (url)
+  (let ((browser-url-browser-function 'browse-url-firefox))
+    (browse-url url)))
+(setq flymd-browser-function 'my-flymd-browser-function)
+(setq flymd-output-directory "/tmp")
 
-
-;; custom
+;;; custom
 (setq prelude-auto-save nil)
+;; Disable menubar, toolbar and scrollbar
+(dolist (mode '(menu-bar-mode tool-bar-mode scroll-bar-mode))
+  (when (fboundp mode) (funcall mode -1)))
+
 
 (provide 'prelude-misc)
 
