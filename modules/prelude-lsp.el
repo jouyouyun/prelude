@@ -41,6 +41,12 @@
 
 (require 'lsp-ui)
 (add-hook 'lsp-mode-hook 'lsp-ui-mode)
+;;; disable lsp-ui
+;;(setq lsp-ui-doc-enable nil
+;;      lsp-ui-peek-enable nil
+;;      lsp-ui-sideline-enable nil
+;;      lsp-ui-imenu-enable nil
+;;      lsp-ui-flycheck-enable t)
 
 (require 'lsp-vue)
 ;;(add-hook 'vue-mode-hook #'lsp-vue-mmm-enable)
