@@ -42,5 +42,5 @@
 (require 'prelude-xml)
 (require 'prelude-yaml)
 (require 'prelude-vue)
-(require 'prelude-lsp)
+;; (require 'prelude-lsp)
 (require 'prelude-misc)

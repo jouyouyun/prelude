@@ -210,9 +210,11 @@ The body of the advice is in BODY."
 
 ;; flyspell-mode does spell-checking on the fly as you type
 (require 'flyspell)
-;;(setq ispell-program-name "aspell" ; use aspell instead of ispell
-;;      ispell-extra-args '("--sug-mode=ultra"))
-(setq ispell-program-name "/bin/false")
+(setq ispell-program-name "aspell" ; use aspell instead of ispell
+      ispell-extra-args '("--sug-mode=ultra"))
+;; use American English as ispell default dictionary to solve 'zh_CN'
+(ispell-change-dictionary "american" t)
+;; (setq ispell-program-name "/bin/false")
 
 (defun prelude-enable-flyspell ()
   "Enable command `flyspell-mode' if `prelude-flyspell' is not nil."

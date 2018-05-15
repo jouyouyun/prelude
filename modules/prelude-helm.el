@@ -41,6 +41,9 @@
 (when (executable-find "curl")
   (setq helm-google-suggest-use-curl-p t))
 
+(when (executable-find "ag")
+  (global-set-key (kbd "M-?") 'helm-ag))
+
 ;; See https://github.com/bbatsov/prelude/pull/670 for a detailed
 ;; discussion of these options.
 (setq helm-split-window-in-side-p           t
