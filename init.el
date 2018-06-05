@@ -104,6 +104,10 @@ by Prelude.")
 
 (message "Loading Prelude's core...")
 
+;;; proxy
+;;(setq url-gateway-method 'socks)
+;;(setq socks-server '("Server" "127.0.0.1" 1080 5))
+
 ;; the core stuff
 (require 'prelude-packages)
 (require 'prelude-custom)  ;; Needs to be loaded before core, editor and ui
