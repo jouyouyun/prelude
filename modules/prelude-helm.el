@@ -42,7 +42,7 @@
   (setq helm-google-suggest-use-curl-p t))
 
 (when (executable-find "ag")
-  (global-set-key (kbd "M-?") 'helm-ag))
+  (global-set-key (kbd "s-*") 'helm-ag))
 
 ;; See https://github.com/bbatsov/prelude/pull/670 for a detailed
 ;; discussion of these options.
