@@ -44,3 +44,4 @@
 (require 'prelude-vue)
 ;; (require 'prelude-lsp)
 (require 'prelude-misc)
+(require 'prelude-hugo)

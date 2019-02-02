@@ -35,6 +35,9 @@
 (prelude-require-package 'company-c-headers)
 (prelude-require-package 'c-eldoc)
 
+(require 'company-c-headers)
+(require 'c-eldoc)
+
 (defun wen-c-headers-company ()
   (add-to-list 'company-backends 'company-c-headers))
 
