@@ -36,17 +36,33 @@
 
 (defun prelude-c-mode-common-defaults ()
   (setq c-default-style "k&r"
-        c-basic-offset 8
-		tab-width 8
-		indent-tabs-mode 1)
-  (c-set-offset 'substatement-open 0))
+        c-basic-offset 4
+		tab-width 4
+		indent-tabs-mode 0)
+  (c-set-offset 'substatement-open 1))
 
 (setq prelude-c-mode-common-hook 'prelude-c-mode-common-defaults)
 
 ;; this will affect all modes derived from cc-mode, like
 ;; java-mode, php-mode, etc
-(add-hook 'c-mode-common-hook (lambda ()
-                                (run-hooks 'prelude-c-mode-common-hook)))
+;(add-hook 'c-mode-common-hook (lambda ()
+                                ;(run-hooks 'prelude-c-mode-common-hook)))
+
+(c-add-style "wen-cpp-style"
+			 '("stroustrup"
+			   (indent-tabs-mode . nil)        ; use spaces rather than tabs
+			   (c-basic-offset . 4)            ; indent by four spaces
+			   (c-offsets-alist . ((inline-open . 0)  ; custom indentation rules
+								   (brace-list-open . 0)
+								   (statement-case-open . +)))))
+
+(defun wen-cpp-indent-hook ()
+  (c-set-style "wen-cpp-style")
+  (auto-fill-mode))
+  ;(c-toggle-auto-hungry-state 1)) ;; auto open next line
+
+(add-hook 'c-mode-common-hook 'wen-cpp-indent-hook)
+;(add-hook 'c++-mode-hook 'wen-cpp-indent-hook)
 
 (defun prelude-makefile-mode-defaults ()
   (whitespace-toggle-options '(tabs))
