@@ -43,6 +43,8 @@
 
 (setq prelude-c-mode-common-hook 'prelude-c-mode-common-defaults)
 
+(add-to-list 'auto-mode-alist '("\\.h\\'" . c++-mode))
+
 ;; this will affect all modes derived from cc-mode, like
 ;; java-mode, php-mode, etc
 ;(add-hook 'c-mode-common-hook (lambda ()

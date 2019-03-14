@@ -33,7 +33,7 @@
 ;;; Code:
 
 (prelude-require-packages '(web-mode))
-(prelude-require-packages '(emmet-mode js2-mode js-doc js-format))
+(prelude-require-packages '(emmet-mode js2-mode js-doc js-format tide prettier-js))
 
 (require 'emmet-mode)
 (add-hook 'sgml-mode-hook 'emmet-mode) ;; Auto-start on any markup modes
@@ -86,9 +86,39 @@
 
 (add-hook 'js2-mode-hook (lambda ()
                            (company-mode)
-                           (setq js2-include-node-externs t)))
+                           (setq js2-include-node-externs t)
+                           (setq js2-basic-offset 2)
+                           (setq js2-indent-switch-body t)
+                           (setq js2-auto-indent-p t)
+                           (setq js2-global-externs '("angular"))
+                           (setq js2-indent-on-enter-key t)))
+
+(require 'tide)
+;;; typescript
+(defun setup-tide-mode ()
+  (interactive)
+  (tide-setup)
+  ;; (flycheck-mode +1)
+  ;; (setq flycheck-check-syntax-automatically '(save mode-enabled))
+  (eldoc-mode +1)
+  (tide-hl-identifier-mode +1)
+  ;; company is an optional dependency. You have to
+  ;; install it separately via package-install
+  ;; `M-x package-install [ret] company`
+  (company-mode +1))
+
+;; aligns annotation to the right hand side
+(setq company-tooltip-align-annotations t)
+
+;; formats the buffer before saving
+(add-hook 'before-save-hook 'tide-format-before-save)
+
+(add-hook 'typescript-mode-hook #'setup-tide-mode)
 
 
+(require 'prettier-js)
+(add-hook 'js2-mode-hook 'prettier-js-mode)
+(add-hook 'web-mode-hook 'prettier-js-mode)
 
 (provide 'prelude-web)
 ;;; prelude-web.el ends here
