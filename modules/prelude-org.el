@@ -49,6 +49,27 @@
     (push `(prelude-mode . ,newmap) minor-mode-overriding-map-alist))
 )
 
+(defun wen-org-inline-css-hook (exporter)
+  "Insert custom inline css"
+  (when (eq exporter 'html)
+    (let* ((dir (ignore-errors (file-name-directory (buffer-file-name))))
+           (path (concat dir "style.css"))
+           (homestyle (or (null dir) (null (file-exists-p path))))
+           (final (if homestyle "~/.emacs.d/templates/org-html.css" path))) ;; <- set your own style file path
+      (setq org-html-head-include-default-style nil)
+      (setq org-html-checkbox-type 'html) ;; <- enable checkout in html
+      (setq org-html-validation-link nil) ;; <- remove validate in bottom
+      (setq org-html-head (concat
+                           "<style type=\"text/css\">\n"
+                           "<!--/*--><![CDATA[/*><!--*/\n"
+                           (with-temp-buffer
+                             (insert-file-contents final)
+                             (buffer-string))
+                           "/*]]>*/-->\n"
+                           "</style>\n")))))
+
+(add-hook 'org-export-before-processing-hook 'wen-org-inline-css-hook)
+
 (setq prelude-org-mode-hook 'prelude-org-mode-defaults)
 
 (add-hook 'org-mode-hook (lambda () (run-hooks 'prelude-org-mode-hook)))
