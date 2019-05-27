@@ -1,9 +1,9 @@
-;;; prelude-lsp.el --- Emacs Prelude: lsp configuration.
+;;; prelude-lsp.el --- lsp-mode setup
 ;;
-;; Copyright © 2018-2018 jouyouyun
+;; Copyright © 2011-2018 Bozhidar Batsov
 ;;
-;; Author: jouyouyun <jouyouwen717@gmail.com>
-;; URL: https://github.com/jouyouyun/prelude
+;; Author: Bozhidar Batsov, Ben Alex
+;; URL: https://github.com/bbatsov/prelude
 ;; Version: 1.0.0
 ;; Keywords: convenience
 
@@ -11,7 +11,7 @@
 
 ;;; Commentary:
 
-;; Some basic configuration for vue mode.
+;; lsp-mode config.
 
 ;;; License:
 
@@ -32,53 +32,28 @@
 
 ;;; Code:
 
-(prelude-require-packages '(lsp-mode lsp-ui company-lsp lsp-vue typescript-mode lsp-javascript-typescript))
-
-
-(require 'lsp-mode)
-(require 'company-lsp)
-(push 'company-lsp company-backends)
+(prelude-require-packages '(company-lsp
+                            lsp-mode
+                            lsp-ui))
 
 (require 'lsp-ui)
-(add-hook 'lsp-mode-hook 'lsp-ui-mode)
-;;; disable lsp-ui
-;;(setq lsp-ui-doc-enable nil
-;;      lsp-ui-peek-enable nil
-;;      lsp-ui-sideline-enable nil
-;;      lsp-ui-imenu-enable nil
-;;      lsp-ui-flycheck-enable t)
+(require 'lsp-ui-imenu)
 
-(require 'lsp-vue)
-;;(add-hook 'vue-mode-hook #'lsp-vue-mmm-enable)
-(add-hook 'major-mode-hook #'lsp-vue-enable)
+(define-key lsp-ui-mode-map [remap xref-find-definitions] #'lsp-ui-peek-find-definitions)
+(define-key lsp-ui-mode-map [remap xref-find-references] #'lsp-ui-peek-find-references)
+(define-key lsp-ui-mode-map (kbd "C-c C-l .") 'lsp-ui-peek-find-definitions)
+(define-key lsp-ui-mode-map (kbd "C-c C-l ?") 'lsp-ui-peek-find-references)
+(define-key lsp-ui-mode-map (kbd "C-c C-l r") 'lsp-rename)
+(define-key lsp-ui-mode-map (kbd "C-c C-l x") 'lsp-restart-workspace)
+(define-key lsp-ui-mode-map (kbd "C-c C-l w") 'lsp-ui-peek-find-workspace-symbol)
+(define-key lsp-ui-mode-map (kbd "C-c C-l i") 'lsp-ui-peek-find-implementation)
+(define-key lsp-ui-mode-map (kbd "C-c C-l d") 'lsp-describe-thing-at-point)
+(define-key lsp-ui-mode-map (kbd "C-c C-l e") 'lsp-execute-code-action)
 
-;;; depends: npm i -g javascript-typescript-langserver
-(require 'lsp-javascript-typescript)
-(add-hook 'js-mode-hook #'lsp-javascript-typescript-enable)
-(add-hook 'typescript-mode-hook #'lsp-javascript-typescript-enable) ;; for typescript support
-(add-hook 'js3-mode-hook #'lsp-javascript-typescript-enable) ;; for js3-mode support
-(add-hook 'rjsx-mode #'lsp-javascript-typescript-enable) ;; for rjsx-mode support
-(defun my-company-transformer (candidates)
-  (let ((completion-ignore-case t))
-    (all-completions (company-grab-symbol) candidates)))
-
-(defun my-js-hook nil
-  (make-local-variable 'company-transformers)
-  (push 'my-company-transformer company-transformers))
-
-(add-hook 'js-mode-hook 'my-js-hook)
-
-;;; depends: npm i -g flow-language-server
-;;(require 'lsp-javascript-flow)
-;;(add-hook 'js-mode-hook #'lsp-javascript-flow-enable)
-;;(add-hook 'js2-mode-hook #'lsp-javascript-flow-enable) ;; for js2-mode support
-;;(add-hook 'rjsx-mode #'lsp-javascript-flow-enable) ;; for rjsx-mode support
-
-;;; npm i -g typescript-language-server
-;;(require 'lsp-typescript)
-;;(add-hook 'js-mode-hook #'lsp-typescript-enable)
-;;(add-hook 'js2-mode-hook #'lsp-typescript-enable) ;; for js2-mode support
-;;(add-hook 'rjsx-mode #'lsp-typescript-enable) ;; for rjsx-mode support
-
+(setq lsp-ui-sideline-enable t)
+(setq lsp-ui-doc-enable t)
+(setq lsp-ui-peek-enable t)
+(setq lsp-ui-peek-always-show t)
 
 (provide 'prelude-lsp)
+;;; prelude-lsp.el ends here
