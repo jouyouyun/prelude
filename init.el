@@ -113,6 +113,8 @@ This is DEPRECATED, use %s instead." prelude-modules-file))
 ;;(setq url-gateway-method 'socks)
 ;;(setq socks-server '("Server" "127.0.0.1" 1080 5))
 
+(setq x-select-enable-clipboard-manager nil)
+
 ;; the core stuff
 (require 'prelude-packages)
 (require 'prelude-custom)  ;; Needs to be loaded before core, editor and ui
