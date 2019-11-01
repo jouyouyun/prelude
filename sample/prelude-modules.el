@@ -47,3 +47,4 @@
 (require 'prelude-misc)
 (require 'prelude-hugo)
 (require 'prelude-reveal)
+(require 'prelude-gtags)
