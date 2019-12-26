@@ -44,6 +44,33 @@
 (add-hook 'c-mode-hook 'wen-c-headers-company)
 (add-hook 'c++-mode-hook 'wen-c-headers-company)
 
+;; add header directory
+(defun wen-append-header-directory (header-dir)
+  "Append header directory.
+`HEADER-DIR' is the target directory"
+  (interactive "sheader dir: ")
+  (message "Debug: will append %s to c headers." header-dir)
+  (if (file-exists-p header-dir)
+      (setq company-c-headers-path-system
+	    (append company-c-headers-path-system
+		    (split-string header-dir)))
+    (message "Warning: directory %s not exists for headers." header-dir))
+  )
+
+;; add clang arguments
+(defun wen-append-clang-arguments (header-dir)
+  "Append clang arguments.
+`HEADER-DIR' is the target directory"
+  (interactive "sheader dir: ")
+  (wen-append-header-directory header-dir)
+  (message "Debug: will append %s to clang arguments." header-dir)
+  (if (file-exists-p header-dir)
+      (setq company-clang-arguments
+            (append company-clang-arguments
+		    (split-string (concat "-I" header-dir))))
+    (message "Warning: directory %s not exists for clang." header-dir))
+  )
+
 ;; autocomplete headers
 (defun wen-pkg-config-enable-clang-headers (pkg-config-lib)
   "This function will add necessary header file path of a
@@ -86,7 +113,7 @@ completionable by company-clang"
 
 (defun set-common-clang-args ()
   (setq command "echo | g++ -v -x c++ -E - 2>&1 |
-                 grep -A 20 starts | grep include | grep -v search")
+                 grep -A 20 starts | grep include | grep -v search | grep -v '#'")
   (setq company-clang-arguments
         (mapcar (lambda (item)
                   (concat "-I" item))
@@ -95,6 +122,7 @@ completionable by company-clang"
   )
 
 (defun wen-set-c-clang-args ()
+  (wen-append-clang-arguments "/usr/src/linux-common/include") ;; must create symlink before used
   (set-common-clang-args)
   (wen-pkg-config-enable-clang-flag "glib-2.0")
   ;; (wen-pkg-config-enable-clang-flag "gtk+-3.0")

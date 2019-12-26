@@ -36,24 +36,52 @@
                             lsp-mode
                             lsp-ui))
 
+(use-package lsp-mode
+  :ensure t
+  :commands (lsp lsp-deferred)
+  :hook (go-mode . lsp-deferred))
+
+;; Set up before-save hooks to format buffer and add/delete imports.
+;; Make sure you don't have other gofmt/goimports hooks enabled.
+(defun lsp-go-install-save-hooks ()
+  (add-hook 'before-save-hook #'lsp-format-buffer t t)
+  (add-hook 'before-save-hook #'lsp-organize-imports t t))
+(add-hook 'go-mode-hook #'lsp-go-install-save-hooks)
+
+(use-package lsp-ui
+  :ensure t
+  :commands lsp-ui-mode)
+
+;; company-lsp integrates company mode completion with lsp-mode.
+;; completion-at-point also works out of the box but doesn't support snippets.
+(use-package company-lsp
+  :ensure t
+  :commands company-lsp)
+
+;; gopls
+;; (lsp-register-custom-settings
+;;  '(("gopls.completeUnimported" t t)
+;;    ("gopls.staticcheck" t t)))
+
 (require 'lsp-ui)
-(require 'lsp-ui-imenu)
 
 (define-key lsp-ui-mode-map [remap xref-find-definitions] #'lsp-ui-peek-find-definitions)
 (define-key lsp-ui-mode-map [remap xref-find-references] #'lsp-ui-peek-find-references)
-(define-key lsp-ui-mode-map (kbd "C-c C-l .") 'lsp-ui-peek-find-definitions)
-(define-key lsp-ui-mode-map (kbd "C-c C-l ?") 'lsp-ui-peek-find-references)
-(define-key lsp-ui-mode-map (kbd "C-c C-l r") 'lsp-rename)
-(define-key lsp-ui-mode-map (kbd "C-c C-l x") 'lsp-restart-workspace)
-(define-key lsp-ui-mode-map (kbd "C-c C-l w") 'lsp-ui-peek-find-workspace-symbol)
-(define-key lsp-ui-mode-map (kbd "C-c C-l i") 'lsp-ui-peek-find-implementation)
-(define-key lsp-ui-mode-map (kbd "C-c C-l d") 'lsp-describe-thing-at-point)
-(define-key lsp-ui-mode-map (kbd "C-c C-l e") 'lsp-execute-code-action)
+;; (define-key lsp-ui-mode-map (kbd "C-c C-l .") 'lsp-ui-peek-find-definitions)
+;; (define-key lsp-ui-mode-map (kbd "C-c C-l ?") 'lsp-ui-peek-find-references)
+;; (define-key lsp-ui-mode-map (kbd "C-c C-l r") 'lsp-rename)
+;; (define-key lsp-ui-mode-map (kbd "C-c C-l x") 'lsp-restart-workspace)
+;; (define-key lsp-ui-mode-map (kbd "C-c C-l w") 'lsp-ui-peek-find-workspace-symbol)
+;; (define-key lsp-ui-mode-map (kbd "C-c C-l i") 'lsp-ui-peek-find-implementation)
+;; (define-key lsp-ui-mode-map (kbd "C-c C-l d") 'lsp-describe-thing-at-point)
+;; (define-key lsp-ui-mode-map (kbd "C-c C-l e") 'lsp-execute-code-action)
 
 (setq lsp-ui-sideline-enable t)
 (setq lsp-ui-doc-enable t)
 (setq lsp-ui-peek-enable t)
 (setq lsp-ui-peek-always-show t)
+
+(setq lsp-gopls-use-placeholders nil)
 
 (provide 'prelude-lsp)
 ;;; prelude-lsp.el ends here

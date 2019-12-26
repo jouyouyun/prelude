@@ -35,20 +35,29 @@
 (require 'prelude-programming)
 
 (defun prelude-c-mode-common-defaults ()
-  (setq c-default-style "k&r"
+  (setq c-default-style "linux"
         c-basic-offset 4
-		tab-width 4
-		indent-tabs-mode 0)
+        tab-width 4
+        indent-tabs-mode t)
   (c-set-offset 'substatement-open 1))
 
 (setq prelude-c-mode-common-hook 'prelude-c-mode-common-defaults)
+
+(defun wen-ext-c-style-8 (style-kr)
+  (interactive "sstyle kr:")
+  (c-set-style "k&r")
+  (setq c-default-style "k&r"
+        c-basic-offset 8
+        tab-width 8
+        indent-tabs-mode t)
+  (c-set-offset 'substatement-open 1))
 
 (add-to-list 'auto-mode-alist '("\\.h\\'" . c++-mode))
 
 ;; this will affect all modes derived from cc-mode, like
 ;; java-mode, php-mode, etc
-;(add-hook 'c-mode-common-hook (lambda ()
-                                ;(run-hooks 'prelude-c-mode-common-hook)))
+(add-hook 'c-mode-common-hook (lambda ()
+                                (run-hooks 'prelude-c-mode-common-hook)))
 
 (c-add-style "wen-cpp-style"
 			 '("stroustrup"
