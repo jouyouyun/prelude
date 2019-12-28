@@ -421,6 +421,21 @@ and file 'filename' will be opened and cursor set on line 'linenumber'"
 (require 'editorconfig)
 (editorconfig-mode 1)
 
+(use-package backward-forward
+  :demand
+  :config
+  (backward-forward-mode t)
+  :bind (:map backward-forward-mode-map
+              ("<C-left>" . nil)
+              ("<C-right>" . nil)
+              ("<M-left>" . backward-forward-previous-location)
+              ("<M-right>" . backward-forward-next-location)
+              )
+  )
+
+;; number line
+(global-display-line-numbers-mode +1)
+
 (provide 'prelude-editor)
 
 ;;; prelude-editor.el ends here

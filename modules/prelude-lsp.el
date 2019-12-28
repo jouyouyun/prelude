@@ -81,7 +81,5 @@
 (setq lsp-ui-peek-enable t)
 (setq lsp-ui-peek-always-show t)
 
-(setq lsp-gopls-use-placeholders nil)
-
 (provide 'prelude-lsp)
 ;;; prelude-lsp.el ends here

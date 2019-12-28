@@ -44,9 +44,10 @@
 ;; is displayed on top (happens near the bottom of windows)
 (setq company-tooltip-flip-when-above t)
 
-;;(add-to-list 'company-backends 'company-abbrev)
 ;;(add-hook 'after-init-hook 'global-company-mode)
 (global-company-mode 1)
+
+(push 'company-dabbrev company-backends)
 
 (provide 'prelude-company)
 ;;; prelude-company.el ends here
