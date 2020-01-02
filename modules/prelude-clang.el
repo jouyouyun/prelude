@@ -122,9 +122,9 @@ completionable by company-clang"
   )
 
 (defun wen-set-c-clang-args ()
-  (wen-append-clang-arguments "/usr/src/linux-common/include") ;; must create symlink before used
   (set-common-clang-args)
-  (wen-pkg-config-enable-clang-flag "glib-2.0")
+  (wen-pkg-config-enable-clang-flag "gio-2.0")
+  (wen-append-clang-arguments "/usr/src/linux-common/include") ;; must create symlink before used
   ;; (wen-pkg-config-enable-clang-flag "gtk+-3.0")
   ;; (wen-pkg-config-enable-clang-flag "popper-glib")
   ;; (wen-pkg-config-enable-clang-flag "libpulse-mainloop-glib")
